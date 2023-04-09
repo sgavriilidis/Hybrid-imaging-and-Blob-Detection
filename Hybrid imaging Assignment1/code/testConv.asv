@@ -1,0 +1,49 @@
+
+clc; clear all;
+
+%kernel = (1/16)*[ 1 2 1; 2 4 2; 1 2 1 ];
+kernelim1 = fspecial('Gaussian', [7 7], 10);
+kernelim2 = fspecial('Gaussian', [15 11], 7);
+
+
+  
+colorim1 = im2single(imread('pair1_einstein.bmp'));
+colorim2 = im2single(imread('pair1_marilyn.bmp'));
+
+
+%imgFilter = imfilter(colorim1,kernel);
+colorim1Final = my_imfilter(colorim1,kernelim1);
+
+%imgFilter = imfilter(colorim2,kernel);
+colorim2Temp = my_imfilter(colorim2,kernelim2);
+colorim2Final =colorim2 - colorim2Temp;
+
+
+figure;
+
+subplot(2,2,1);
+imshow(colorim1);
+title('Einstein');
+
+subplot(3,2,2);
+imshow(colorim2);
+title('Marilyn');
+
+subplot(2,2,3);
+imshow(colorim1Final)
+title('Low-pass filtered Einstein');
+subplot(2,2,4);
+imshow(colorim2Final+0.5)
+title('High-pass filtered Marilyn');
+
+
+
+hybridIm=colorim1Final+colorim2Final;
+figure;
+vis = visualize_hybrid_image(hybridIm);
+imshow(vis);
+
+
+
+
+
